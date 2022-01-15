@@ -1,6 +1,6 @@
 from scamp import *
-from Note import Note
-from Motive2 import Motive2
+from .Note import Note
+from .Motive2 import Motive2
 
 def play(part, notes):
     assert(len(notes) > 0)

@@ -1,4 +1,4 @@
-from Note import *
+from .Note import *
 
 class Motive2:
 
