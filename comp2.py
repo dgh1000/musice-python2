@@ -8,21 +8,21 @@
 import sys
 sys.path.append("..")
 
-import classes.Note 
-import classes.Motive2
+from classes.Note import Note
+from classes.Motive2 import Motive2
 from scamp import *
-import classes.Play
-import classes.Chord
+from classes.Play import play
+from classes.Chord import Chord
 
-chords = [classes.Chord.Chord.major_chord(60, 3), 
-          classes.Chord.Chord.major_chord(65, 3), 
-          classes.Chord.Chord.minor_chord(62, 3),
-          classes.Chord.Chord.dom7(67, 4),
-          classes.Chord.Chord.major_chord(60, 3)]
+chords = [Chord.major_chord(60, 3), 
+          Chord.major_chord(65, 3), 
+          Chord.minor_chord(62, 3),
+          Chord.dom7(67, 4),
+          Chord.major_chord(60, 3)]
 times = [i * 2 for i in range(len(chords))]
 #print(*zip(*[n.to_list() for i in range(len(chords)) for n in chords[i].to_notes(times[i], 1.0, 0.5)]))
 notes = [n for i in range(len(chords)) for n in chords[i].to_notes(times[i], 1.0, 0.5)]
 #notes = motive1.render(0)
 s = Session()
 o = s.new_part("trombone")
-classes.Play.play(o, notes)
+play(o, notes)
