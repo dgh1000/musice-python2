@@ -1,0 +1,12 @@
+we have a scale
+we represent Chords as root, presence of which pitches and how many octaves doubling,
+  then the representation of which ones are played in rhythm section
+
+we write algorithms to find a bassline and melody and put those in separate instruments
+
+# way to create a part that plays to MIDI
+midi_part = s.new_midi_part("my midi part", "IAC", start_channel=7, num_channels=1)
+
+A class for constructing a composition. Melody algorithsm, chord list or chord generators. Bass algorithms.
+MIDI instrument: channel, device. or sound font instrument
+
