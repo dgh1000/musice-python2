@@ -23,8 +23,15 @@ def play(part_dict, notes):
 def chord_to_notes(chord: Chord2, time: float, dur: float = 1, dyn: float = 1) -> list[Note]:
     return [Note(time, dur, chord.bass_note, dyn, "Electric Bass (finger)")]
 
-def create_part_dict(session, notes):
+def create_part_dict(session: Session, notes: list[Note]) -> dict[str, ScampInstrument]:
     s = {n.inst for n in notes}
     return {inst: session.new_part(inst) for inst in s}
+
+def num_to_pitch(num: int) -> str:
+    # TODO: Decide whether to make something sharp/flat
+    return ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"][num % 12] + str(num//12 - 1)
+
+def pitch_to_num(pitch: str) -> int:
+    return ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"].index(pitch[:-1]) + (12 * int(pitch[-1]))
 
 

@@ -7,6 +7,19 @@ we write algorithms to find a bassline and melody and put those in separate inst
 # way to create a part that plays to MIDI
 midi_part = s.new_midi_part("my midi part", "IAC", start_channel=7, num_channels=1)
 
-A class for constructing a composition. Melody algorithsm, chord list or chord generators. Bass algorithms.
+Composer.py:
+    A class for constructing a composition. 
+    
+  - chord list or chord generators
+  - scale
+  - bassline algorithms 
+  - melody algorithm: two notes per chord. 
+      ascending halfway through the chords, then descending
+  - background chord algorithm  
+  - percussion algorithm
+  - a list of parts to be used in the composition
+  - "melody": "sax"
+  - "bass"  : "electric bass"
+
 MIDI instrument: channel, device. or sound font instrument
 
