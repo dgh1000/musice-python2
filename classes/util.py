@@ -1,26 +1,3 @@
-from scamp import *
-from .Note import Note
-from .Motive2 import Motive2
-from .Chord2 import Chord2
-
-def play(part_dict, notes):
-    assert(len(notes) > 0)
-    ns = sorted(notes, key = lambda n1: n1.time)
-    ts = [no.time for no in ns]
-    t_prev = ts[0]
-    i = 0
-    while i < len(notes):
-        t_next = ts[i]
-        print("i", i, "t_next", t_next, "t_prev", t_prev)
-        wait(t_next-t_prev)
-        while i < len(notes) and ns[i].time == t_next:
-            part = part_dict[ns[i].inst]
-            part.play_note(ns[i].pitch, ns[i].dur, ns[i].dyn, blocking=False)
-            i += 1
-        t_prev = t_next
-    wait(2)
-    
-    
 def chord_to_notes(chord: Chord2, time: float, dur: float = 1, dyn: float = 1) -> list[Note]:
     return [Note(time, dur, chord.bass_note, dyn, "Electric Bass (finger)")]
 
@@ -35,4 +12,8 @@ def num_to_pitch(num: int) -> str:
 def P(pitch: str) -> int:
     return ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"].index(pitch[:-1]) + (12 * (1+int(pitch[-1])))
 
+def nearest_pc(approx, pc):
+    o = approx//12
+    approx % 12 - pc
 
+    return o * 12 + pc
