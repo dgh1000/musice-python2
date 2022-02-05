@@ -2,6 +2,7 @@ from classes.Note import Note
 from classes.Motive2 import Motive2
 from scamp import *
 from classes.Play import *
+from classes.util import *
 from classes.Chord2 import Chord2
 from classes.Composer import Composer
 
