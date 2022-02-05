@@ -1,3 +1,8 @@
+from scamp import *
+from .Note import Note
+from .Motive2 import Motive2
+from .Chord2 import Chord2
+
 def chord_to_notes(chord: Chord2, time: float, dur: float = 1, dyn: float = 1) -> list[Note]:
     return [Note(time, dur, chord.bass_note, dyn, "Electric Bass (finger)")]
 
