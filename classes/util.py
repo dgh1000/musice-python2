@@ -37,3 +37,6 @@ def interp_limit(x1: float, x2: float, x3: float, y1: float, y2: float) -> float
 def interp(x1: float, x2: float, x3: float, y1: float, y2: float) -> float:
     return y1 + (y2-y1)*(x2-x1)/(x3-x1)
 
+
+    
+

@@ -15,7 +15,7 @@ def play(part_dict, notes):
         wait(t_next-t_prev)
         while i < len(notes) and ns[i].time == t_next:
             part = part_dict[ns[i].inst]
-            part.play_note(ns[i].pitch, ns[i].dur, ns[i].dyn, blocking=False)
+            part.play_note(ns[i].pitch, ns[i].dyn, ns[i].dur, blocking=False)
             i += 1
         t_prev = t_next
     wait(2)

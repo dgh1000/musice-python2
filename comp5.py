@@ -18,8 +18,10 @@ composer.chord_list = [
 s = Session()
 composer.parts["bass"] = "Electric Bass (finger)"
 composer.parts["harmony"] = "Tenor Sax"
+composer.parts["melody"] = "Violin" # In good taste
 composer.compute_bassline()
 composer.compute_harmonies()
+composer.compute_melody()
 print(composer.notes)
 
 play(create_part_dict(s, composer.notes), composer.notes)
