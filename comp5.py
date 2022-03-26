@@ -5,6 +5,7 @@ from classes.Play import *
 from classes.util import *
 from classes.Chord2 import Chord2
 from classes.Composer import Composer
+import rtmidi
 
 
 composer = Composer()
@@ -16,12 +17,12 @@ composer.chord_list = [
 
 
 s = Session()
-composer.parts["bass"] = "Electric Bass (finger)"
-composer.parts["harmony"] = "Tenor Sax"
-composer.parts["melody"] = "Violin" # In good taste
+composer.part_config["bass"] = 1
+composer.part_config["harmony"] = 2
+composer.part_config["melody"] = 3
 composer.compute_bassline()
 composer.compute_harmonies()
 composer.compute_melody()
 print(composer.notes)
 
-play(create_part_dict(s, composer.notes), composer.notes)
+play(create_part_dict(s, composer.notes, composer.part_config), composer.notes)

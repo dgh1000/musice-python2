@@ -8,6 +8,7 @@ class Composer:
         self.chord_list = []
         self.scale = []
         self.parts = {}
+        self.part_config = {}
         self.tempo = 60
         self.time_sig = (4,4)
         self.notes = []
@@ -18,14 +19,14 @@ class Composer:
                         dur,
                         self.chord_list[c].bass_note,
                         1.0,
-                        self.parts["bass"])
+                        "bass")
                     for c in range(len(self.chord_list))]
 
     def compute_harmonies(self):
         dur = 60 * self.time_sig[0] / self.tempo 
         for c in range(len(self.chord_list)):
             for h in self.chord_list[c].harmonies:
-                self.notes.append(Note(c * dur, dur, h, 0.5, self.parts["harmony"]))
+                self.notes.append(Note(c * dur, dur, h, 0.5, "harmony"))
 
     def compute_melody(self):
         melody_span = 60 * self.time_sig[0] / self.tempo * len(self.chord_list)
@@ -35,18 +36,17 @@ class Composer:
             return interp_limit(melody_span/2, time, melody_span, 75, 60)
         # loop over each beat 
         msr = 1
-        beat = 0
+        beat = 1
         for i in range(len(self.chord_list) * self.time_sig[0]):
             ch = self.chord_list[msr-1]
+            mb = MeasureBeat(msr, beat, self.time_sig, self.tempo)
+            t = mb.to_time()
+            pc = nearest_from_multiple_pc(compute_approx(t), ch.pitch_classes)
+            self.notes.append(Note(t, 60/self.tempo, pc, 1.0, "melody"))
             beat += 1
             if beat > self.time_sig[1]:
                 beat = 1
                 msr += 1
-            
-            mb = MeasureBeat(msr, beat, self.time_sig, self.tempo)
-            t = mb.to_time()
-            pc = nearest_from_multiple_pc(compute_approx(t), ch.pitch_classes)
-            self.notes.append(Note(t, 60/self.tempo, pc, 1.0, self.parts["melody"]))
         # determine MeasureBeat of melody note
         # 
         # determine which chord: msr of MeasureBeat

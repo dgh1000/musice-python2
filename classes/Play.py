@@ -21,6 +21,10 @@ def play(part_dict, notes):
     wait(2)
     
     
+# Note: instr is "Bass", "Melody", or "Harmony"
+# part dict is ["bass" : ScampPart,]
+# config dict: we need another dict which is {"bass" : 1}
+# going to use that set on Notes to get {"bass", "melody", }
 
 
 

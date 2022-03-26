@@ -7,9 +7,12 @@ from .Chord2 import Chord2
 def chord_to_notes(chord: Chord2, time: float, dur: float = 1, dyn: float = 1) -> list[Note]:
     return [Note(time, dur, chord.bass_note, dyn, "Electric Bass (finger)")]
 
-def create_part_dict(session: Session, notes: list[Note]) -> dict[str, ScampInstrument]:
-    s = {n.inst for n in notes}
-    return {inst: session.new_part(inst) for inst in s}
+def create_part_dict(session: Session, notes: list[Note], part_config) -> dict[str, ScampInstrument]:
+    out = {}
+    instr_names = {n.inst for n in notes}
+    for i in instr_names:
+        out[i] = session.new_midi_part(i, "MidiPipe Input 1", start_channel=part_config[i]-1, num_channels=1)
+    return out
 
 def num_to_pitch(num: int) -> str:
     # TODO: Decide whether to make something sharp/flat
