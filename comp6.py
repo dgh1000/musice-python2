@@ -1,4 +1,5 @@
 from classes.Comp import Comp
+from classes.EvRepeat import EvRepeat
 from classes.MeasureBeat import MeasureBeat
 from classes.Note import Note
 from classes.Motive2 import Motive2
@@ -25,11 +26,24 @@ def get_pitch(mb: MeasureBeat):
         return interp_limit(0, t, peak, bottom_pitch, top_pitch)
     return interp_limit(peak, t, length, top_pitch, bottom_pitch)
 
+session = Session()
 comp = Comp(4, [
-    Chord2(P("A3"), [0, 3, 7], [P("")]),
-    Chord2(P("D3"), [0, 3, 7], [P("A3"), P("F4")], (0, 0)),
-    Chord2(P("G3"), [0, 4, 7, 11], [P("D4"), P("F4"), P("B4")], (0, 0)),
-    Chord2(P("C3"), [0, 4, 7], [P("G3"), P("E4")], (0, 0)),
-    ])
-scorer = Scoring([EvInChord(), EvRange(get_pitch, 8, -100, 100)], 36, 84)
+    Chord2("A7/C#3"),
+    Chord2("D7/D3"),
+    Chord2("F/A2"),
+    Chord2("G7/G2"),
+    Chord2("C7/C3")
+])
+
+comp.gen_bass()
+comp.gen_harmony()
+scorer = Scoring([EvInChord(), EvRange(get_pitch, 8, -100, 100), EvRepeat()], 36, 84)
+comp.gen_melody(scorer)
+
+print(str(comp))
+part_config = {"bass": 1, "harmony": 2, "melody": 3}
+part_dict = create_part_dict(session, comp.notes, part_config)
+play(part_dict, comp.notes)
+
+
 
