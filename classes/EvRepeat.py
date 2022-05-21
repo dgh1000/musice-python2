@@ -6,6 +6,6 @@ class EvRepeat(Ev):
         super().__init__()
 
     def ev(self, comp, pitch, mb):
-        if comp.notes[-1].pitch == pitch:
+        if len(comp.melody) and comp.melody[-1].pitch == pitch:
             return -1000000
         return 0

@@ -40,10 +40,11 @@ comp.gen_harmony()
 scorer = Scoring([EvInChord(), EvRange(get_pitch, 8, -100, 100), EvRepeat()], 36, 84)
 comp.gen_melody(scorer)
 
-print(str(comp))
+#print(str(comp))
 part_config = {"bass": 1, "harmony": 2, "melody": 3}
-part_dict = create_part_dict(session, comp.notes, part_config)
-play(part_dict, comp.notes)
+LNotes = comp.convert()
+part_dict = create_part_dict(session, LNotes, part_config)
+play(part_dict, LNotes)
 
 
 

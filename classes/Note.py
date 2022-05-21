@@ -1,5 +1,8 @@
+from classes.MeasureBeat import MeasureBeat
+
+
 class Note:
-    def __init__(self, time, dur, pitch, dyn, inst):
+    def __init__(self, time: MeasureBeat, dur: float, pitch: int, dyn: float, inst: str):
         self.time = time
         self.dur = dur
         self.pitch = pitch

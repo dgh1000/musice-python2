@@ -18,7 +18,7 @@ class Scoring:
         pitches.sort(key=lambda x: x[1], reverse=True)
         
         x = Scoring.compare(pitches)
-        print("Pitch, InChord, Range, Repeat", x, [ev_.ev(comp, x, mb) for ev_ in self.evs])
+        #print("Pitch, InChord, Range, Repeat", x, [ev_.ev(comp, x, mb) for ev_ in self.evs])
         return x
 
     @staticmethod
