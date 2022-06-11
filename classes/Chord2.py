@@ -29,15 +29,16 @@ class Chord2:
         self.bass_note += (octave + 1) * 12
         if is_minor:
             if is_seven:
-                rel_pc = [0, 3, 7, 9]
+                rel_pc = [0, 3, 7, 10]
             else:
                 rel_pc = [0, 3, 7]
         else:
             if is_seven:
-                rel_pc = [0, 4, 7, 9]
+                rel_pc = [0, 4, 7, 10]
             else:
                 rel_pc = [0, 4, 7]
         self.pitch_classes = sorted([(root + p) % 12 for p in rel_pc])
+        #print(notation, self.pitch_classes)
         
         # Bb??/Db?d
         # 

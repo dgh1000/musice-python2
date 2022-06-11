@@ -1,3 +1,4 @@
+from classes import Chord2, MeasureBeat
 from .Ev import Ev
 import random
 
@@ -30,4 +31,4 @@ class Scoring:
             idx += 1
         return random.choice(pitches[:idx + 1][0])
 
-
+    

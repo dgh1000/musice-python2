@@ -1,0 +1,20 @@
+Goal: 
+- specify melody rhythm in flexible way
+    - use "holes"
+- eventually specify bassline and harmony in flexible way too
+- need to rewrite melody generation to look at holes in order and look up
+    associated harmony with any given hole
+- need to look at prior determined pitch
+
+- looking up harmony at a given msrbeat
+- assume one harmony per measure - can still assume this
+- assume one bassline per measure
+
+Plan:
+
+- write comp7 part that determines melody "holes" at certain positions in time
+  using some kind of pattern 
+
+- write code that looks up the harmony associated with a given MsrBeat - decide where this code should go (what class/file)
+
+- write loop for generating melody

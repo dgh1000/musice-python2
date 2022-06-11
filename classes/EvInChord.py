@@ -1,3 +1,4 @@
+from classes import Chord2, MeasureBeat
 from .Ev import Ev
 
 class EvInChord(Ev):
@@ -5,5 +6,6 @@ class EvInChord(Ev):
         pass
 
     def ev(self, comp, pitch, mb):
-        ch = comp.chord_list[mb.measure - 1]
+        ch = comp.get_chord_at(mb)
         return int(pitch % 12 not in ch.pitch_classes) * -1000000
+
