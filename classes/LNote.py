@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+# dur is in seconds. time is in seconds.
 
 @dataclass
 class LNote:

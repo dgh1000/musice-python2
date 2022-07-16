@@ -1,14 +1,17 @@
-from types import FunctionType
+from typing import Callable
+
+from .MeasureBeat import MeasureBeat
 from .Ev import Ev
 from .util import interp_limit
 #          _
 # f(mb): _/ \_
-#          |
+#         | |
+#         b t
 #
 
 
 class EvRange(Ev):
-    def __init__(self, get_pitch: FunctionType, width: float, bottom: float, top: float) -> None:
+    def __init__(self, get_pitch: Callable[[float, float], float], width: float, bottom: float, top: float) -> None:
         super().__init__()
         self.get_pitch = get_pitch
         self.width = width
@@ -25,13 +28,17 @@ class EvRange(Ev):
         # self.mb0 = mb0
         # self.mb1 = mb1
         # self.mb2 = mb2
-
-
+    #   _
+    #  / \
     def ev(self, comp, pitch, mb):
-        target_pitch = self.get_pitch(mb)
-        if target_pitch < pitch:
-            return interp_limit(target_pitch, pitch, target_pitch + self.width, self.bottom, self.top)
-        return interp_limit(target_pitch - self.width, pitch, target_pitch, self.bottom, self.top)
+        target_pitch = self.get_pitch(comp.to_time(mb), comp.to_time(MeasureBeat(comp.num_msrs, 1)))
+        y1 = target_pitch - 24
+        y2 = target_pitch + 24
+        if y1 < pitch < y2:
+            return self.top
+        if target_pitch < y1:
+            return interp_limit(y1, pitch, y1 + self.width, self.bottom, self.top)
+        return interp_limit(y2 - self.width, pitch, y2, self.bottom, self.top)
         
         # target pitch is function based on y0, .., y2, mb0, .. , mb2
         # t_mb = mb.to_time()

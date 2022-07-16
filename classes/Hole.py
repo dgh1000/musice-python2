@@ -2,14 +2,12 @@ from dataclasses import dataclass
 
 from classes.MeasureBeat import MeasureBeat
 
+# dur is in beats
 
 @dataclass
 class Hole:
     time: MeasureBeat
     dur: float
 
-
-if __name__ == "__main__":
-    print(Hole(5, 5))
 
         

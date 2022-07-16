@@ -1,4 +1,3 @@
-from classes import Chord2, MeasureBeat
 from .Ev import Ev
 import random
 
@@ -24,11 +23,13 @@ class Scoring:
 
     @staticmethod
     def compare(pitches: list[int]) -> int:
-        idx = 0
-        while idx < len(pitches) - 1:
-            if pitches[idx] != pitches[idx + 1]:
-                return pitches[idx][0]
+        idx = 1
+
+        while idx < len(pitches):
+            if pitches[idx][1] != pitches[idx -1][1]:
+                break
+                # return pitches[idx][0]
             idx += 1
-        return random.choice(pitches[:idx + 1][0])
+        return random.choice(pitches[:idx])[0]
 
     
