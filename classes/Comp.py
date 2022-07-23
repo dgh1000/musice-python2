@@ -58,7 +58,7 @@ class Comp:
         for hole in holes:
             # computing the pitch of the bassline: must check "floor" chord relative to
             # hole.time
-            self.bassline.append(Note(hole.time, hole.dur, self.get_chord_at(hole.time).bass_note, 0.7, "bass"))
+            self.bassline.append(Note(hole.time, hole.dur, self.get_chord_at(hole.time).bass_note, hole.dynamics, "bass"))
 
     def gen_harmony(self, holes: list[Hole]):
         lower = P("C3");
@@ -66,27 +66,27 @@ class Comp:
         for hole in holes:
             for approx_pitch in range(lower, upper, 3):
                 pitch = nearest_from_multiple_pc(approx_pitch, self.get_chord_at(hole.time).pitch_classes)
-                self.harmony.append(Note(hole.time, hole.dur, pitch, 0.7, "harmony"))
+                self.harmony.append(Note(hole.time, hole.dur, pitch, hole.dynamics, "harmony"))
 
     def gen_melody(self, scorer: Scoring, holes: list[Hole]):
-        for i in range(len(holes)):
+        for hole in holes:
             # pick pitch here
-            pit = scorer.ev(self, holes[i].time)
+            pitch = scorer.ev(self, hole.time)
             #print(scorer.evs[1].ev(self, pit, holes[i].time))
-            print("Pitch, InChord, Range, Repeat", pit, [ev_.ev(self, pit, holes[i].time) for ev_ in scorer.evs])
-            self.melody.append(Note(holes[i].time,
-                                   holes[i].dur,
-                                   pit,
-                                   0.5, 
+            print("Pitch, InChord, Range, Repeat", pitch, [ev_.ev(self, pitch, hole.time) for ev_ in scorer.evs])
+            self.melody.append(Note(hole.time,
+                                   hole.dur,
+                                   pitch,
+                                   hole.dynamics, 
                                    "melody"))
 
     def gen_percussion(self, kick_holes: list[Hole], snare_holes: list[Hole], high_hat_holes: list[Hole]):
         for hole in kick_holes:
-            self.percussion.append(Note(hole.time, hole.dur, 36, 0.7, "perc"))
+            self.percussion.append(Note(hole.time, hole.dur, 36, hole.dynamics, "perc"))
         for hole in snare_holes:
-            self.percussion.append(Note(hole.time, hole.dur, 38, 0.7, "perc"))
+            self.percussion.append(Note(hole.time, hole.dur, 38, hole.dynamics, "perc"))
         for hole in high_hat_holes:
-            self.percussion.append(Note(hole.time, hole.dur, 44, 0.7, "perc"))
+            self.percussion.append(Note(hole.time, hole.dur, 44, hole.dynamics, "perc"))
 
     def convert(self) -> list[LNote]:
         def to_LNote(note: Note) -> LNote:
@@ -159,6 +159,20 @@ class Comp:
                 out.beat += diff
                 break
         return out
+
+    def slice_comp(self, start: int, end: int):
+        time_sig_map2 = {m-start+1: t for m, t in self.time_sig_map.items() if start <= m <= end}
+        tempo_map2 = {m-start+1: t for m, t in self.tempo_map.items() if start <= m <= end}
+        def alter_mb(mb):
+            return MeasureBeat(mb.mb.measure - start + 1, mb.mb.beat)
+        def alter_note(note):
+            return Note(alter_mb(note.mb), note.dur, note.pitch, note.dyn, note.inst)
+        def alter_list(l):
+            return [alter_note(n) for n in l if start <= n.mb.measure <= end]
+        chord_list = [(alter_mb(mb), chord) for mb, chord in self.chord_list if start <= mb.measure <= end]
+        c = Comp(chord_list, end - start + 1, time_sig_map2, tempo_map2)
+        harmony_notes = [alter_note(n) for n in self.harmony if start <= n.mb.measure <= end]
+        
 
     def __str__(self):
         return "\n".join(map(str, self.notes)) + "\n"

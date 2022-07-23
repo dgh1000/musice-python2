@@ -28,6 +28,6 @@ def gen_mel(comp: Comp, scorer: Scoring):
         for j in range(12, 40):
             # constant beat duration: cause problems? will cause
             # overlapping notes. shouldn't be a problem. 
-            holes.append(Hole(MeasureBeat(i, j/8), 0.125))
+            holes.append(Hole(MeasureBeat(i, j/8), 0.125, j/40))
     # holes.append(Hole(MeasureBeat(comp.num_msrs, 1, (4, 4)), 4))
     comp.gen_melody(scorer, holes)

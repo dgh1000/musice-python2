@@ -8,6 +8,7 @@ from classes.MeasureBeat import MeasureBeat
 class Hole:
     time: MeasureBeat
     dur: float
+    dynamics: float = 0.5
 
 
         

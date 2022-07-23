@@ -10,10 +10,15 @@ class Chord2:
     def __init__(self, notation) -> None:
         root, idx = Chord2.pc_parser(notation, 0)
         is_minor = False
+        is_dim = False
+        is_seven = False
         if idx < len(notation) and notation[idx] == "m":
             is_minor = True
             idx += 1
-        is_seven = False
+        elif idx < len(notation) and notation[idx] == "h":
+            is_dim = True
+            idx += 1
+            
         if idx < len(notation) and notation[idx] == "7":
             is_seven = True
             idx += 1
@@ -27,16 +32,17 @@ class Chord2:
         octave = int(notation[idx])
         
         self.bass_note += (octave + 1) * 12
-        if is_minor:
-            if is_seven:
-                rel_pc = [0, 3, 7, 10]
-            else:
-                rel_pc = [0, 3, 7]
+        rel_pc = []
+        if is_minor or is_dim:
+            rel_pc = [0, 3]
         else:
-            if is_seven:
-                rel_pc = [0, 4, 7, 10]
-            else:
-                rel_pc = [0, 4, 7]
+            rel_pc = [0, 4]
+        if is_dim:
+            rel_pc.append(6)
+        else:
+            rel_pc.append(7)
+        if is_seven:
+            rel_pc.append(10)
         self.pitch_classes = sorted([(root + p) % 12 for p in rel_pc])
         #print(notation, self.pitch_classes)
         
